@@ -10,5 +10,5 @@ class Post < ApplicationRecord
     # after_destroy_commit -> { broadcast_remove_to "posts" }
 
     #all those above are are collectively equal to the code below
-    # broadcasts_to ->(post) { "posts" }, inserts_by: prepend
+    broadcasts_to ->(post) { [post.company, "posts"] }, inserts_by: :prepend
 end

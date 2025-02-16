@@ -1,12 +1,12 @@
 class PostsController < ApplicationController
-  before_action :authenticate_user!, except: [:index]
+  before_action :set_post, except: [:new, :index, :create]
 
   def index
-    @posts = Post.ordered
+    @posts = current_company.posts.ordered
   end
 
   def create
-    @post = current_user.posts.build(post_params)
+    @post = current_company.posts.build(post_params)
     if @post.save
       respond_to do |format|
         format.html {redirect_to posts_path, notice: "post successfully!"}
@@ -18,12 +18,9 @@ class PostsController < ApplicationController
   end
 
   def show
-    @post = Post.find_by(id: params[:id])
   end
 
   def edit
-    @post = Post.find_by(id: params[:id])
-    
   end
 
   def new
@@ -31,7 +28,6 @@ class PostsController < ApplicationController
   end
 
   def update 
-    @post = Post.find_by(id: params[:id])
     @post.update(post_params)
     if @post.save
       redirect_to posts_path, notice: "post successfully!"
@@ -41,7 +37,6 @@ class PostsController < ApplicationController
   end
 
   def destroy
-    @post = Post.find_by(id: params[:id])
     @post.destroy!
     respond_to do |format|
       puts "FORMAT IS #{format}"
@@ -54,5 +49,9 @@ class PostsController < ApplicationController
   
   def post_params
     params.require(:post).permit(:title, :body)
+  end
+
+  def set_post
+    @post = current_company.posts.find_by(id: params[:id])
   end
 end
