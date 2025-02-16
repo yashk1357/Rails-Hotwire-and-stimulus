@@ -2,13 +2,16 @@ class PostsController < ApplicationController
   before_action :authenticate_user!, except: [:index]
 
   def index
-    @posts = Post.all
+    @posts = Post.ordered
   end
 
   def create
     @post = current_user.posts.build(post_params)
     if @post.save
-      redirect_to @post, notice: "Post created successfully!"
+      respond_to do |format|
+        format.html {redirect_to posts_path, notice: "post successfully!"}
+        format.turbo_stream
+      end
     else
       render :new, status: :unprocessable_entity
     end
@@ -33,14 +36,18 @@ class PostsController < ApplicationController
     if @post.save
       redirect_to posts_path, notice: "post successfully!"
     else
-      render :edit
+      render :edit, status: :unprocessable_entity
     end
   end
 
   def destroy
     @post = Post.find_by(id: params[:id])
     @post.destroy!
-    redirect_to @post, notice: "Pos deleted successfully!"
+    respond_to do |format|
+      puts "FORMAT IS #{format}"
+      format.html {redirect_to @post, notice: "Pos deleted successfully!"}
+      format.turbo_stream
+    end
   end
 
   private

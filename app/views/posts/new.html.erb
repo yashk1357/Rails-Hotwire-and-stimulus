@@ -1,6 +1,8 @@
 <div class="max-w-lg mx-auto bg-white w-xs p-6 rounded-lg shadow-md">
   <h1 class="mb-4 text-center font-bold text-4xl">New Post</h1>
   <div>
+  <%= turbo_frame_tag "post_new" do %>
     <%= render 'form', post:@post, action_name: "Create post" %>
+  <% end %>
   </div>
 </div>
