@@ -25,6 +25,9 @@
 
   <body>
     <%= render '/layouts/navbar' %>
+    <div id="flash"  class="text-sm text-white  py-1 bg-gray-900 animate-fade fixed top-20 left-1/2 transform -translate-x-1/2 flex flex-col items-center gap-2 max-w-full w-max px-4">
+      <%= render 'layouts/flash' %>
+    </div>
     <main class="container mx-auto mt-28 px-5 flex">
       <%= yield %>
     </main>

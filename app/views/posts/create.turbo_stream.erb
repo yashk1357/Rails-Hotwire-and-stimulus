@@ -2,3 +2,4 @@
 <%= turbo_stream.prepend "posts", @post %>
 
 <%= turbo_stream.update "post_new", "" %>
+<%= render_turbo_stream_flash_messages %>

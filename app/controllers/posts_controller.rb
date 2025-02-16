@@ -9,8 +9,8 @@ class PostsController < ApplicationController
     @post = current_company.posts.build(post_params)
     if @post.save
       respond_to do |format|
-        format.html {redirect_to posts_path, notice: "post successfully!"}
-        format.turbo_stream
+        format.html {redirect_to posts_path, notice: "Post was successfully created."}
+        format.turbo_stream { flash.now[:notice] = "Quote was successfully created." }
       end
     else
       render :new, status: :unprocessable_entity
@@ -30,7 +30,10 @@ class PostsController < ApplicationController
   def update 
     @post.update(post_params)
     if @post.save
-      redirect_to posts_path, notice: "post successfully!"
+      respond_to do |format|
+        format.html { redirect_to posts_path, notice: "Post was successfully updated." }
+        format.turbo_stream { flash.now[:notice] = "POst was successfully updated." }
+      end
     else
       render :edit, status: :unprocessable_entity
     end
@@ -40,8 +43,8 @@ class PostsController < ApplicationController
     @post.destroy!
     respond_to do |format|
       puts "FORMAT IS #{format}"
-      format.html {redirect_to @post, notice: "Pos deleted successfully!"}
-      format.turbo_stream
+      format.html {redirect_to @post, notice: "Post deleted successfully!"}
+      format.turbo_stream { flash.now[:notice] = "Post deleted Successfully!"}
     end
   end
 
